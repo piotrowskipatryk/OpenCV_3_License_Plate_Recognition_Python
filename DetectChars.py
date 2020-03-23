@@ -118,7 +118,7 @@ def findPossibleCharsInPlate(imgGrayscale, imgThresh):
     contours = []
     imgThreshCopy = imgThresh.copy()
 
-    contours, npaHierarchy = cv2.findContours(
+    npaHierarchy, contours, npaHierarchy = cv2.findContours(
         imgThreshCopy, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
 
     for contour in contours:
