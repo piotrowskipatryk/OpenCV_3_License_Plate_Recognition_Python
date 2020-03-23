@@ -33,8 +33,6 @@ def detectPlatesInScene(imgOriginalScene):
         if possiblePlate.imgPlate is not None:
             listOfPossiblePlates.append(possiblePlate)
 
-    print(str(len(listOfPossiblePlates)) + " possible plates found")
-
     return listOfPossiblePlates
 
 

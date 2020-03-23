@@ -36,12 +36,9 @@ def main(imgOriginalScene):
         )
         licPlate = listOfPossiblePlates[0]
 
-        if len(licPlate.strChars) == 0:
-            print("no characters were detected")
-        else:
-            print("license plate read from image = " + licPlate.strChars)
-
-    print("----------------------------------------")
+        if licPlate.strChars:
+            print(licPlate.strChars)
+            print("---------------")
 
     return
 
