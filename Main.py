@@ -34,7 +34,7 @@ def main(imgOriginalScene):
         )
         licPlate = listOfPossiblePlates[0]
 
-        if licPlate.strChars:
+        if len(licPlate.strChars) in (7, 8):
             print(licPlate.strChars)
             print("---------------")
 
