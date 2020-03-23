@@ -1,5 +1,9 @@
 import cv2
-import os
+import sys
+
+import time
+from picamera.array import PiRGBArray
+from picamera import PiCamera
 
 import DetectChars
 import DetectPlates
@@ -11,19 +15,11 @@ SCALAR_GREEN = (0.0, 255.0, 0.0)
 SCALAR_RED = (0.0, 0.0, 255.0)
 
 
-def main():
-
-    blnKNNTrainingSuccessful = DetectChars.loadKNNDataAndTrainKNN()
-    if blnKNNTrainingSuccessful is False:
-        print("error: KNN traning was not successful\n")
-        return
-
-    imgOriginalScene = cv2.imread("test.jpg")
+def main(imgOriginalScene):
 
     if imgOriginalScene is None:
         print("error: image not read from file \n\n")
-        os.system("pause")
-        return
+        sys.exit()
 
     listOfPossiblePlates = DetectPlates.detectPlatesInScene(imgOriginalScene)
 
@@ -121,4 +117,17 @@ def writeLicensePlateCharsOnImage(imgOriginalScene, licPlate):
 
 
 if __name__ == "__main__":
-    main()
+    blnKNNTrainingSuccessful = DetectChars.loadKNNDataAndTrainKNN()
+    if blnKNNTrainingSuccessful is False:
+        print("error: KNN traning was not successful\n")
+        sys.exit()
+
+    camera = PiCamera()
+    rawCapture = PiRGBArray(camera)
+    time.sleep(0.1)  # camera warmup
+    camera.capture(rawCapture, format="bgr")
+    image = rawCapture.array
+
+    while True:
+        main(image)
+        time.sleep(5)
