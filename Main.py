@@ -38,9 +38,8 @@ def main(imgOriginalScene):
 
         if len(licPlate.strChars) == 0:
             print("no characters were detected")
-            return
-
-        print("license plate read from image = " + licPlate.strChars)
+        else:
+            print("license plate read from image = " + licPlate.strChars)
 
     print("----------------------------------------")
 
