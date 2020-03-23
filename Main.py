@@ -27,9 +27,7 @@ def main(imgOriginalScene):
         listOfPossiblePlates
     )
 
-    if len(listOfPossiblePlates) == 0:
-        print("no license plates were detected")
-    else:
+    if listOfPossiblePlates:
         listOfPossiblePlates.sort(
             key=lambda possiblePlate: len(possiblePlate.strChars),
             reverse=True
