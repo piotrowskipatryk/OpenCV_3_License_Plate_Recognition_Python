@@ -41,7 +41,8 @@ def main(imgOriginalScene):
             return
 
         print("license plate read from image = " + licPlate.strChars)
-        print("----------------------------------------")
+
+    print("----------------------------------------")
 
     return
 
@@ -119,6 +120,8 @@ if __name__ == "__main__":
 
     camera = PiCamera()
     camera.resolution = (640, 480)
+    camera.vflip = True
+    camera.hflip = True
     time.sleep(0.1)  # camera warmup
 
     while True:
