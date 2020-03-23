@@ -119,11 +119,11 @@ if __name__ == "__main__":
 
     camera = PiCamera()
     camera.resolution = (1280, 960)
-    rawCapture = PiRGBArray(camera, size=(1280, 960))
     time.sleep(0.1)  # camera warmup
-    camera.capture(rawCapture, format="bgr")
-    image = rawCapture.array
+    rawCapture = PiRGBArray(camera, size=(1280, 960))
 
     while True:
+        camera.capture(rawCapture, format="bgr")
+        image = rawCapture.array
         main(image)
         time.sleep(3)
