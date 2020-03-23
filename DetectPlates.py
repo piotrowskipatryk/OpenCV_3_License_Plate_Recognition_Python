@@ -23,9 +23,7 @@ def detectPlatesInScene(imgOriginalScene):
 
     imgGrayscaleScene, imgThreshScene = Preprocess.preprocess(imgOriginalScene)
     listOfPossibleCharsInScene = findPossibleCharsInScene(imgThreshScene)
-    listOfListsOfMatchingCharsInScene = DetectChars.findListOfListsOfMatchingChars(
-        listOfPossibleCharsInScene
-    )
+    listOfListsOfMatchingCharsInScene = DetectChars.findListOfListsOfMatchingChars(listOfPossibleCharsInScene)
 
     for listOfMatchingChars in listOfListsOfMatchingCharsInScene:
         possiblePlate = extractPlate(imgOriginalScene, listOfMatchingChars)

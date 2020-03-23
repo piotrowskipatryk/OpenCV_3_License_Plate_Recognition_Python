@@ -1,4 +1,4 @@
-import os
+import sys
 
 import cv2
 import numpy as np
@@ -42,15 +42,13 @@ def loadKNNDataAndTrainKNN():
         npaClassifications = np.loadtxt("classifications.txt", np.float32)
     except Exception:
         print("error, unable to open classifications.txt, exiting program")
-        os.system("pause")
-        return False
+        sys.exit()
 
     try:
         npaFlattenedImages = np.loadtxt("flattened_images.txt", np.float32)
     except Exception:
         print("error, unable to open flattened_images.txt, exiting program\n")
-        os.system("pause")
-        return False
+        sys.exit()
 
     npaClassifications = npaClassifications.reshape(
         (npaClassifications.size, 1))
@@ -68,32 +66,42 @@ def detectCharsInPlates(listOfPossiblePlates):
         return listOfPossiblePlates
 
     for possiblePlate in listOfPossiblePlates:
-        possiblePlate.imgGrayscale, possiblePlate.imgThresh = Preprocess.preprocess(
-            possiblePlate.imgPlate
-        )
+        possiblePlate.imgGrayscale, possiblePlate.imgThresh = Preprocess.preprocess(possiblePlate.imgPlate)
 
         possiblePlate.imgThresh = cv2.resize(
-            possiblePlate.imgThresh, (0, 0), fx=1.6, fy=1.6)
+            possiblePlate.imgThresh,
+            (0, 0),
+            fx=1.6,
+            fy=1.6
+        )
 
         thresholdValue, possiblePlate.imgThresh = cv2.threshold(
-            possiblePlate.imgThresh, 0.0, 255.0, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
+            possiblePlate.imgThresh,
+            0.0,
+            255.0,
+            cv2.THRESH_BINARY | cv2.THRESH_OTSU
+        )
 
         listOfPossibleCharsInPlate = findPossibleCharsInPlate(
-            possiblePlate.imgGrayscale, possiblePlate.imgThresh)
+            possiblePlate.imgGrayscale,
+            possiblePlate.imgThresh
+        )
 
         listOfListsOfMatchingCharsInPlate = findListOfListsOfMatchingChars(
-            listOfPossibleCharsInPlate)
+            listOfPossibleCharsInPlate
+        )
 
         if (len(listOfListsOfMatchingCharsInPlate) == 0):
-
             possiblePlate.strChars = ""
             continue
 
         for i in range(0, len(listOfListsOfMatchingCharsInPlate)):
             listOfListsOfMatchingCharsInPlate[i].sort(
-                key=lambda matchingChar: matchingChar.intCenterX)
+                key=lambda matchingChar: matchingChar.intCenter
+            )
             listOfListsOfMatchingCharsInPlate[i] = removeInnerOverlappingChars(
-                listOfListsOfMatchingCharsInPlate[i])
+                listOfListsOfMatchingCharsInPlate[i]
+            )
 
         intLenOfLongestListOfChars = 0
         intIndexOfLongestListOfChars = 0
@@ -101,14 +109,17 @@ def detectCharsInPlates(listOfPossiblePlates):
         for i in range(0, len(listOfListsOfMatchingCharsInPlate)):
             if len(listOfListsOfMatchingCharsInPlate[i]) > intLenOfLongestListOfChars:
                 intLenOfLongestListOfChars = len(
-                    listOfListsOfMatchingCharsInPlate[i])
+                    listOfListsOfMatchingCharsInPlate[i]
+                )
                 intIndexOfLongestListOfChars = i
 
         longestListOfMatchingCharsInPlate = listOfListsOfMatchingCharsInPlate[
             intIndexOfLongestListOfChars]
 
         possiblePlate.strChars = recognizeCharsInPlate(
-            possiblePlate.imgThresh, longestListOfMatchingCharsInPlate)
+            possiblePlate.imgThresh,
+            longestListOfMatchingCharsInPlate
+        )
 
     return listOfPossiblePlates
 
@@ -181,13 +192,10 @@ def findListOfMatchingChars(possibleChar, listOfChars):
         fltAngleBetweenChars = angleBetweenChars(
             possibleChar, possibleMatchingChar)
 
-        fltChangeInArea = float(abs(possibleMatchingChar.intBoundingRectArea -
-                                    possibleChar.intBoundingRectArea)) / float(possibleChar.intBoundingRectArea)
+        fltChangeInArea = float(abs(possibleMatchingChar.intBoundingRectArea - possibleChar.intBoundingRectArea)) / float(possibleChar.intBoundingRectArea)
 
-        fltChangeInWidth = float(abs(possibleMatchingChar.intBoundingRectWidth -
-                                     possibleChar.intBoundingRectWidth)) / float(possibleChar.intBoundingRectWidth)
-        fltChangeInHeight = float(abs(possibleMatchingChar.intBoundingRectHeight -
-                                      possibleChar.intBoundingRectHeight)) / float(possibleChar.intBoundingRectHeight)
+        fltChangeInWidth = float(abs(possibleMatchingChar.intBoundingRectWidth - possibleChar.intBoundingRectWidth)) / float(possibleChar.intBoundingRectWidth)
+        fltChangeInHeight = float(abs(possibleMatchingChar.intBoundingRectHeight - possibleChar.intBoundingRectHeight)) / float(possibleChar.intBoundingRectHeight)
 
         if (fltDistanceBetweenChars < (possibleChar.fltDiagonalSize * MAX_DIAG_SIZE_MULTIPLE_AWAY) and
             fltAngleBetweenChars < MAX_ANGLE_BETWEEN_CHARS and

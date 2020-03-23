@@ -109,7 +109,7 @@ def writeLicensePlateCharsOnImage(imgOriginalScene, licPlate):
 if __name__ == "__main__":
     blnKNNTrainingSuccessful = DetectChars.loadKNNDataAndTrainKNN()
     if blnKNNTrainingSuccessful is False:
-        print("error: KNN traning was not successful\n")
+        print("error: KNN traning was not successful")
         sys.exit()
 
     camera = PiCamera()
