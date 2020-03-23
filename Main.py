@@ -36,7 +36,6 @@ def main(imgOriginalScene):
 
         if len(licPlate.strChars) in (7, 8):
             print(licPlate.strChars)
-            print("---------------")
 
     return
 
