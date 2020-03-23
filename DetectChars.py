@@ -97,7 +97,7 @@ def detectCharsInPlates(listOfPossiblePlates):
 
         for i in range(0, len(listOfListsOfMatchingCharsInPlate)):
             listOfListsOfMatchingCharsInPlate[i].sort(
-                key=lambda matchingChar: matchingChar.intCenter
+                key=lambda matchingChar: matchingChar.intCenterX
             )
             listOfListsOfMatchingCharsInPlate[i] = removeInnerOverlappingChars(
                 listOfListsOfMatchingCharsInPlate[i]
