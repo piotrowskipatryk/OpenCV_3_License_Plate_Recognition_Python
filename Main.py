@@ -27,8 +27,6 @@ def main(imgOriginalScene):
         listOfPossiblePlates
     )
 
-    cv2.imshow("imgOriginalScene", imgOriginalScene)
-
     if len(listOfPossiblePlates) == 0:
         print("no license plates were detected")
     else:
@@ -37,9 +35,6 @@ def main(imgOriginalScene):
             reverse=True
         )
         licPlate = listOfPossiblePlates[0]
-
-        cv2.imshow("imgPlate", licPlate.imgPlate)
-        cv2.imshow("imgThresh", licPlate.imgThresh)
 
         if len(licPlate.strChars) == 0:
             print("no characters were detected")
