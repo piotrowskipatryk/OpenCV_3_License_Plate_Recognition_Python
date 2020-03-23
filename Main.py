@@ -18,7 +18,7 @@ SCALAR_RED = (0.0, 0.0, 255.0)
 def main(imgOriginalScene):
 
     if imgOriginalScene is None:
-        print("error: image not read from file \n\n")
+        print("error: image not read from file")
         sys.exit()
 
     listOfPossiblePlates = DetectPlates.detectPlatesInScene(imgOriginalScene)
@@ -30,7 +30,7 @@ def main(imgOriginalScene):
     cv2.imshow("imgOriginalScene", imgOriginalScene)
 
     if len(listOfPossiblePlates) == 0:
-        print("\nno license plates were detected\n")
+        print("no license plates were detected")
     else:
         listOfPossiblePlates.sort(
             key=lambda possiblePlate: len(possiblePlate.strChars),
@@ -42,7 +42,7 @@ def main(imgOriginalScene):
         cv2.imshow("imgThresh", licPlate.imgThresh)
 
         if len(licPlate.strChars) == 0:
-            print("\nno characters were detected\n\n")
+            print("no characters were detected")
             return
 
         print("license plate read from image = " + licPlate.strChars)
